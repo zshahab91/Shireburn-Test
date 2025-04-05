@@ -1,5 +1,31 @@
 {
+  "users": [
+    { 
+      "id": 1, 
+      "userName": "zshahab", 
+      "password": "123456" 
+    }
+  ],
   "employees": [
-    { "id": 1, "firstName": "John", "lastName": "Doe" }
+    {
+      "id": 1,
+      "code": "EMP001",
+      "firstName": "John",
+      "lastName": "Doe",
+      "occupation": "Software Engineer",
+      "department": "IT",
+      "employmentDate": "2024-01-15",
+      "terminationDate": null
+    },
+    {
+      "id": 2,
+      "code": "EMP002",
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "occupation": "HR Manager",
+      "department": "Human Resources",
+      "employmentDate": "2024-05-01",
+      "terminationDate": null
+    }
   ]
 }
