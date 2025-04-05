@@ -8,30 +8,30 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/login',
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
     },
     {
       path: '/signup',
       name: 'signup',
-      component: SignupView
+      component: SignupView,
     },
     {
       path: '/employees',
       name: 'employees',
       component: EmployeesView,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
     },
-  ]
+  ],
 })
 
 router.beforeEach((to, from, next) => {

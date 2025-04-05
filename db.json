@@ -20,12 +20,192 @@
     {
       "id": 2,
       "code": "EMP002",
+      "firstName": "Zahra",
+      "lastName": "Shahab",
+      "occupation": "Software Engineer",
+      "department": "IT",
+      "employmentDate": "2023-01-01",
+      "terminationDate": null
+    },
+    {
+      "id": 3,
+      "code": "EMP003",
       "firstName": "Jane",
       "lastName": "Smith",
       "occupation": "HR Manager",
       "department": "Human Resources",
       "employmentDate": "2024-05-01",
       "terminationDate": null
+    },
+    {
+      "id": 4,
+      "code": "EMP004",
+      "firstName": "Michael",
+      "lastName": "Johnson",
+      "occupation": "Research Scientist",
+      "department": "R&D",
+      "employmentDate": "2023-08-15",
+      "terminationDate": null
+    },
+    {
+      "id": 5,
+      "code": "EMP005",
+      "firstName": "Sarah",
+      "lastName": "Williams",
+      "occupation": "Marketing Manager",
+      "department": "Marketing",
+      "employmentDate": "2023-11-01",
+      "terminationDate": null
+    },
+    {
+      "id": 6,
+      "code": "EMP006",
+      "firstName": "David",
+      "lastName": "Brown",
+      "occupation": "Sales Representative",
+      "department": "Sales",
+      "employmentDate": "2024-02-01",
+      "terminationDate": null
+    },
+    {
+      "id": 7,
+      "code": "EMP007",
+      "firstName": "Emily",
+      "lastName": "Davis",
+      "occupation": "Quality Analyst",
+      "department": "Quality Control",
+      "employmentDate": "2023-06-15",
+      "terminationDate": "2024-06-15"
+    },
+    {
+      "id": 8,
+      "code": "EMP008",
+      "firstName": "James",
+      "lastName": "Wilson",
+      "occupation": "System Administrator",
+      "department": "IT",
+      "employmentDate": "2023-09-01",
+      "terminationDate": null
+    },
+    {
+      "id": 9,
+      "code": "EMP009",
+      "firstName": "Emma",
+      "lastName": "Taylor",
+      "occupation": "Financial Analyst",
+      "department": "Finance",
+      "employmentDate": "2024-03-01",
+      "terminationDate": null
+    },
+    {
+      "id": 10,
+      "code": "EMP010",
+      "firstName": "Alexander",
+      "lastName": "Anderson",
+      "occupation": "Product Manager",
+      "department": "Product",
+      "employmentDate": "2023-07-15",
+      "terminationDate": null
+    },
+    {
+      "id": 11,
+      "code": "EMP011",
+      "firstName": "Sophie",
+      "lastName": "Martin",
+      "occupation": "HR Specialist",
+      "department": "Human Resources",
+      "employmentDate": "2024-06-01",
+      "terminationDate": null
+    },
+    {
+      "id": 12,
+      "code": "EMP012",
+      "firstName": "Daniel",
+      "lastName": "Thompson",
+      "occupation": "DevOps Engineer",
+      "department": "IT",
+      "employmentDate": "2023-12-01",
+      "terminationDate": null
+    },
+    {
+      "id": 13,
+      "code": "EMP013",
+      "firstName": "Olivia",
+      "lastName": "White",
+      "occupation": "Content Writer",
+      "department": "Marketing",
+      "employmentDate": "2024-01-15",
+      "terminationDate": null
+    },
+    {
+      "id": 14,
+      "code": "EMP014",
+      "firstName": "William",
+      "lastName": "Clark",
+      "occupation": "Sales Manager",
+      "department": "Sales",
+      "employmentDate": "2023-10-01",
+      "terminationDate": "2024-12-31"
+    },
+    {
+      "id": 15,
+      "code": "EMP015",
+      "firstName": "Isabella",
+      "lastName": "Lee",
+      "occupation": "Research Assistant",
+      "department": "R&D",
+      "employmentDate": "2024-04-01",
+      "terminationDate": null
+    },
+    {
+      "id": 16,
+      "code": "EMP016",
+      "firstName": "Lucas",
+      "lastName": "Garcia",
+      "occupation": "UI/UX Designer",
+      "department": "IT",
+      "employmentDate": "2023-05-15",
+      "terminationDate": null
+    },
+    {
+      "id": 17,
+      "code": "EMP017",
+      "firstName": "Ava",
+      "lastName": "Rodriguez",
+      "occupation": "Account Manager",
+      "department": "Sales",
+      "employmentDate": "2024-07-01",
+      "terminationDate": null
+    },
+    {
+      "id": 18,
+      "code": "EMP018",
+      "firstName": "Ethan",
+      "lastName": "Martinez",
+      "occupation": "Software Architect",
+      "department": "IT",
+      "employmentDate": "2023-03-15",
+      "terminationDate": null
+    },
+    {
+      "id": 19,
+      "code": "EMP019",
+      "firstName": "Mia",
+      "lastName": "Lopez",
+      "occupation": "Quality Manager",
+      "department": "Quality Control",
+      "employmentDate": "2024-08-01",
+      "terminationDate": null
+    },
+    {
+      "id": 20,
+      "code": "EMP020",
+      "firstName": "Benjamin",
+      "lastName": "King",
+      "occupation": "Data Analyst",
+      "department": "IT",
+      "employmentDate": "2023-04-01",
+      "terminationDate": "2024-09-30"
     }
   ]
 }
