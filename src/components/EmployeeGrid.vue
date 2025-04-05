@@ -21,6 +21,7 @@ const props = defineProps<{
 
 // Replace the existing defineEmits with this type-safe version
 const emit = defineEmits<{
+  (e: 'edit', employee: Employee): void
   (e: 'delete', employee: Employee): void
   (e: 'refresh'): void
   (e: 'loadMore'): void
@@ -220,6 +221,10 @@ const handleFileImport = async (event: Event) => {
     }
   }
 }
+
+const handleDelete = (employee: Employee) => {
+  emit('delete', employee)
+}
 </script>
 
 <template>
@@ -411,7 +416,10 @@ const handleFileImport = async (event: Event) => {
               >
                 Edit
               </button>
-              <button @click="$emit('delete', employee)" class="text-red-600 hover:text-red-900">
+              <button
+                @click="handleDelete(employee)"
+                class="text-red-600 hover:text-red-900"
+              >
                 Delete
               </button>
             </td>

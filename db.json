@@ -98,16 +98,6 @@
       "terminationDate": null
     },
     {
-      "id": "10",
-      "code": "EMP010",
-      "firstName": "Alexander",
-      "lastName": "Anderson",
-      "occupation": "Product Manager",
-      "department": "Product",
-      "employmentDate": "2023-07-15",
-      "terminationDate": null
-    },
-    {
       "id": "11",
       "code": "EMP011",
       "firstName": "Sophie",
@@ -208,16 +198,6 @@
       "terminationDate": "2024-09-30"
     },
     {
-      "id": "d14f",
-      "code": "EMP432",
-      "firstName": "Ashkan",
-      "lastName": "Nazari",
-      "occupation": "Developer",
-      "department": "IT",
-      "employmentDate": "2025-04-05",
-      "terminationDate": null
-    },
-    {
       "id": "0109",
       "code": "EMP001",
       "firstName": "JohnEdit",
@@ -305,16 +285,6 @@
       "occupation": "Financial Analyst",
       "department": "Finance",
       "employmentDate": "2024-03-01",
-      "terminationDate": null
-    },
-    {
-      "id": "be93",
-      "code": "EMP010",
-      "firstName": "Alexander",
-      "lastName": "Anderson",
-      "occupation": "Product Manager",
-      "department": "Product",
-      "employmentDate": "2023-07-15",
       "terminationDate": null
     },
     {
@@ -418,16 +388,6 @@
       "terminationDate": "2024-09-30"
     },
     {
-      "id": "7a71",
-      "code": "EMP432",
-      "firstName": "Ashkan",
-      "lastName": "Nazari",
-      "occupation": "Developer",
-      "department": "IT",
-      "employmentDate": "2025-04-05",
-      "terminationDate": null
-    },
-    {
       "id": "89da",
       "code": "EMP001",
       "firstName": "JohnEdit",
@@ -515,16 +475,6 @@
       "occupation": "Financial Analyst",
       "department": "Finance",
       "employmentDate": "2024-03-01",
-      "terminationDate": null
-    },
-    {
-      "id": "51d1",
-      "code": "EMP010",
-      "firstName": "Alexander",
-      "lastName": "Anderson",
-      "occupation": "Product Manager",
-      "department": "Product",
-      "employmentDate": "2023-07-15",
       "terminationDate": null
     },
     {
@@ -628,16 +578,6 @@
       "terminationDate": "2024-09-30"
     },
     {
-      "id": "b2ff",
-      "code": "EMP432",
-      "firstName": "Ashkan",
-      "lastName": "Nazari",
-      "occupation": "Developer",
-      "department": "IT",
-      "employmentDate": "2025-04-05",
-      "terminationDate": null
-    },
-    {
       "id": "b22f",
       "code": "EMP987",
       "firstName": "Shabi",
@@ -646,6 +586,16 @@
       "department": "Human Resources",
       "employmentDate": "2025-04-05",
       "terminationDate": "2025-04-30"
+    },
+    {
+      "id": "0a5c",
+      "code": "EMP077",
+      "firstName": "Heli",
+      "lastName": "shahab",
+      "occupation": "Manager",
+      "department": "Sales",
+      "employmentDate": "2025-05-01",
+      "terminationDate": "2025-06-27"
     }
   ]
 }
