@@ -1,9 +1,9 @@
 {
   "users": [
-    { 
-      "id": 1, 
-      "userName": "zshahab", 
-      "password": "123456" 
+    {
+      "id": 1,
+      "userName": "zshahab",
+      "password": "123456"
     }
   ],
   "employees": [
