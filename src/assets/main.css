@@ -4,12 +4,7 @@
 
 @import './base.css';
 
-/* #app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
-} */
+/* Rest of your styles */
 #app {
   @apply min-h-screen w-screen overflow-x-hidden;
 }
