@@ -1,9 +1,9 @@
 <template>
-  <div class="space-y-6 p-6">
+  <div class="p-6 space-y-6">
     <div class="flex justify-between items-center">
       <h1 class="text-2xl font-bold text-gray-900">Employees</h1>
       <button
-        @click="router.push('/employees/create')"
+        @click="handleCreate"
         class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
       >
         Create Employee
@@ -14,20 +14,40 @@
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
     </div>
 
-    <EmployeeGrid v-else :employees="employees" @delete="handleDelete" />
+    <EmployeeGrid v-else :employees="employees" @edit="handleEdit" @delete="fetchEmployees" />
+
+    <Modal
+      :show="showModal"
+      :title="isEditMode ? 'Edit Employee' : 'Create Employee'"
+      @close="handleClose"
+    >
+      <EmployeeForm
+        :employee="selectedEmployee"
+        :is-edit-mode="isEditMode"
+        @save="handleSave"
+        @cancel="handleClose"
+      />
+    </Modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import EmployeeGrid from '@/components/EmployeeGrid.vue'
+import Modal from '@/components/Modal.vue'
+import EmployeeForm from '@/components/EmployeeForm.vue'
 
-const router = useRouter()
 const employees = ref([])
 const loading = ref(true)
+const showModal = ref(false)
+const selectedEmployee = ref(null)
+const isEditMode = ref(false)
 
 onMounted(async () => {
+  await fetchEmployees()
+})
+
+const fetchEmployees = async () => {
   try {
     const response = await fetch('http://localhost:3000/employees')
     employees.value = await response.json()
@@ -36,17 +56,27 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
 
-const handleDelete = async (id: number) => {
-  try {
-    await fetch(`http://localhost:3000/employees/${id}`, {
-      method: 'DELETE',
-    })
-    employees.value = employees.value.filter((emp) => emp.id !== id)
-  } catch (error) {
-    console.error('Error deleting employee:', error)
-  }
+const handleCreate = () => {
+  selectedEmployee.value = null
+  isEditMode.value = false
+  showModal.value = true
+}
+
+const handleEdit = (employee) => {
+  selectedEmployee.value = employee
+  isEditMode.value = true
+  showModal.value = true
+}
+
+const handleClose = () => {
+  showModal.value = false
+  selectedEmployee.value = null
+}
+
+const handleSave = async () => {
+  await fetchEmployees()
+  handleClose()
 }
 </script>
-<style scoped></style>
