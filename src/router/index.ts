@@ -26,6 +26,20 @@ const router = createRouter({
       component: EmployeesView,
       meta: { requiresAuth: true },
     },
+    {
+      path: '/employees/:id',
+      name: 'employee-profile',
+      component: () => import('@/components/EmployeeProfile.vue'),
+      meta: { requiresAuth: true },
+      props: (route) => ({ mode: 'view' }),
+    },
+    {
+      path: '/employees/:id/edit',
+      name: 'employee-edit',
+      component: () => import('@/components/EmployeeProfile.vue'),
+      meta: { requiresAuth: true },
+      props: (route) => ({ mode: 'edit' }),
+    },
   ],
 })
 
