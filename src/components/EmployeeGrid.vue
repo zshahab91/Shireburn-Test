@@ -320,12 +320,34 @@ const handleFileImport = async (event: Event) => {
 
     <!-- Search and Filter Section -->
     <div class="flex flex-col md:flex-row gap-4 mb-6">
-      <input
-        v-model="searchQuery"
-        type="text"
-        placeholder="Search employees..."
-        class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500 flex-grow"
-      />
+      <div class="relative flex-grow">
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Search employees..."
+          class="w-full px-4 py-2 pr-10 border rounded-lg focus:ring-2 focus:ring-purple-500"
+        />
+        <button
+          v-if="searchQuery"
+          @click="searchQuery = ''"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+          <span class="sr-only">Clear search</span>
+        </button>
+      </div>
       <select
         v-model="selectedDepartment"
         class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
