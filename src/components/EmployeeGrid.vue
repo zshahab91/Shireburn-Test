@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { exportToCSV, parseCSV, validateCSVFormat } from '@/utils/csvHelpers'
 
 interface Employee {
   id: number
@@ -18,7 +19,7 @@ const props = defineProps<{
   employees: Employee[]
 }>()
 
-defineEmits(['delete', 'loadMore'])
+defineEmits(['delete', 'loadMore', 'refresh'])
 
 // Router
 const router = useRouter()
@@ -31,6 +32,9 @@ const sortDirection = ref('asc')
 const itemsPerPage = ref(10)
 const currentPage = ref(1)
 const pagesToShow = ref(5)
+const fileInput = ref<HTMLInputElement | null>(null)
+const importErrors = ref<string[]>([])
+const showImportErrors = ref(false)
 
 // Computed properties
 const filteredEmployees = computed(() => {
@@ -114,10 +118,158 @@ const formatTerminationStatus = (date: string | null) => {
   const today = new Date()
   return terminationDate > today ? 'to be terminated' : 'terminated'
 }
+
+const handleExport = () => {
+  exportToCSV(props.employees, `employees-${new Date().toISOString().split('T')[0]}`)
+}
+
+const handleImportClick = () => {
+  fileInput.value?.click()
+}
+
+const handleFileImport = async (event: Event) => {
+  const target = event.target as HTMLInputElement
+  if (!target.files?.length) return
+
+  try {
+    // Check file extension
+    const file = target.files[0]
+    if (!file.name.endsWith('.csv')) {
+      importErrors.value = ['Please upload a CSV file']
+      showImportErrors.value = true
+      return
+    }
+
+    // Parse CSV
+    const employees = await parseCSV(file)
+
+    // Validate format
+    const errors = validateCSVFormat(employees)
+    if (errors.length > 0) {
+      importErrors.value = errors
+      showImportErrors.value = true
+      return
+    }
+
+    // Upload employees
+    const failedUploads: string[] = []
+    for (const employee of employees) {
+      try {
+        const response = await fetch('http://localhost:3000/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(employee),
+        })
+
+        if (!response.ok) {
+          failedUploads.push(
+            `Failed to upload employee ${employee.code}: ${employee.firstName} ${employee.lastName}`,
+          )
+        }
+      } catch {
+        failedUploads.push(`Failed to upload employee ${employee.code}: Network error`)
+      }
+    }
+
+    if (failedUploads.length > 0) {
+      importErrors.value = failedUploads
+      showImportErrors.value = true
+    } else {
+      // Show success message
+      importErrors.value = ['Successfully imported all employees']
+      showImportErrors.value = true
+      emit('refresh')
+    }
+  } catch (error) {
+    console.error('Import failed:', error)
+    importErrors.value = [
+      'Failed to import file. Please ensure:',
+      '1. The file is a valid CSV',
+      '2. Headers are correct (Code, First Name, Last Name, Occupation, Department, Employment Date, Termination Date)',
+      '3. All required fields are filled',
+      `Error details: ${(error as Error).message}`,
+    ]
+    showImportErrors.value = true
+  } finally {
+    if (fileInput.value) {
+      fileInput.value.value = ''
+    }
+  }
+}
 </script>
 
 <template>
   <div class="space-y-4">
+    <!-- Import/Export buttons -->
+    <div class="flex justify-end space-x-4">
+      <input ref="fileInput" type="file" accept=".csv" class="hidden" @change="handleFileImport" />
+      <button
+        @click="handleImportClick"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      >
+        Import CSV
+      </button>
+      <button
+        @click="handleExport"
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+      >
+        Export CSV
+      </button>
+    </div>
+
+    <!-- Import Errors Modal -->
+    <div v-if="showImportErrors" class="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+          @click="showImportErrors = false"
+        ></div>
+
+        <div
+          class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
+        >
+          <div>
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+              <svg
+                class="h-6 w-6 text-red-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
+            <div class="mt-3 text-center sm:mt-5">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Import Errors</h3>
+              <div class="mt-2">
+                <ul class="text-sm text-red-600 text-left list-disc pl-5">
+                  <li v-for="error in importErrors" :key="error">
+                    {{ error }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="mt-5 sm:mt-6">
+            <button
+              type="button"
+              class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:text-sm"
+              @click="showImportErrors = false"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Search and Filter Section -->
     <div class="flex flex-col md:flex-row gap-4 mb-6">
       <input

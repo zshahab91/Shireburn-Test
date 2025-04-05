@@ -14,7 +14,13 @@
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
     </div>
 
-    <EmployeeGrid v-else :employees="employees" @edit="handleEdit" @delete="fetchEmployees" />
+    <EmployeeGrid
+      v-else
+      :employees="employees"
+      @edit="handleEdit"
+      @delete="fetchEmployees"
+      @refresh="fetchEmployees"
+    />
 
     <Modal
       :show="showModal"
