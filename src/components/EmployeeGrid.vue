@@ -19,7 +19,12 @@ const props = defineProps<{
   employees: Employee[]
 }>()
 
-defineEmits(['delete', 'loadMore', 'refresh'])
+// Replace the existing defineEmits with this type-safe version
+const emit = defineEmits<{
+  (e: 'delete', employee: Employee): void
+  (e: 'refresh'): void
+  (e: 'loadMore'): void
+}>()
 
 // Router
 const router = useRouter()
@@ -151,8 +156,10 @@ const handleFileImport = async (event: Event) => {
       return
     }
 
-    // Upload employees
+    // Upload employees with better error tracking
+    const successfulUploads: string[] = []
     const failedUploads: string[] = []
+
     for (const employee of employees) {
       try {
         const response = await fetch('http://localhost:3000/employees', {
@@ -161,36 +168,53 @@ const handleFileImport = async (event: Event) => {
           body: JSON.stringify(employee),
         })
 
-        if (!response.ok) {
+        const data = await response.json()
+
+        if (response.ok) {
+          successfulUploads.push(`${employee.code}: ${employee.firstName} ${employee.lastName}`)
+        } else {
           failedUploads.push(
-            `Failed to upload employee ${employee.code}: ${employee.firstName} ${employee.lastName}`,
+            `${employee.code}: ${employee.firstName} ${employee.lastName} - ${data.message || 'Unknown error'}`,
           )
         }
       } catch {
-        failedUploads.push(`Failed to upload employee ${employee.code}: Network error`)
+        failedUploads.push(
+          `${employee.code}: ${employee.firstName} ${employee.lastName} - Network error`,
+        )
       }
     }
 
+    // Show comprehensive import results
     if (failedUploads.length > 0) {
-      importErrors.value = failedUploads
-      showImportErrors.value = true
+      importErrors.value = [
+        `Successfully imported ${successfulUploads.length} employees`,
+        'Failed to import the following employees:',
+        ...failedUploads,
+      ]
     } else {
-      // Show success message
-      importErrors.value = ['Successfully imported all employees']
-      showImportErrors.value = true
+      importErrors.value = [`Successfully imported all ${successfulUploads.length} employees`]
+    }
+    showImportErrors.value = true
+
+    // Refresh grid only if we had successful imports
+    if (successfulUploads.length > 0) {
       emit('refresh')
     }
   } catch (error) {
     console.error('Import failed:', error)
     importErrors.value = [
-      'Failed to import file. Please ensure:',
-      '1. The file is a valid CSV',
-      '2. Headers are correct (Code, First Name, Last Name, Occupation, Department, Employment Date, Termination Date)',
-      '3. All required fields are filled',
-      `Error details: ${(error as Error).message}`,
+      'CSV Import Error:',
+      (error as Error).message || 'Unknown error occurred',
+      '',
+      'Please ensure:',
+      '• The CSV file has the correct headers',
+      '• All required fields are filled',
+      '• Dates are in YYYY-MM-DD format',
+      '• Employee codes follow EMP### format',
     ]
     showImportErrors.value = true
   } finally {
+    // Reset file input
     if (fileInput.value) {
       fileInput.value.value = ''
     }
@@ -217,7 +241,7 @@ const handleFileImport = async (event: Event) => {
       </button>
     </div>
 
-    <!-- Import Errors Modal -->
+    <!-- Import Results Modal -->
     <div v-if="showImportErrors" class="fixed inset-0 z-50 overflow-y-auto">
       <div
         class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
@@ -231,14 +255,34 @@ const handleFileImport = async (event: Event) => {
           class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6"
         >
           <div>
-            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+            <div
+              class="mx-auto flex items-center justify-center h-12 w-12 rounded-full"
+              :class="[
+                importErrors[0].includes('Successfully imported all')
+                  ? 'bg-green-100'
+                  : 'bg-yellow-100',
+              ]"
+            >
               <svg
-                class="h-6 w-6 text-red-600"
+                class="h-6 w-6"
+                :class="[
+                  importErrors[0].includes('Successfully imported all')
+                    ? 'text-green-600'
+                    : 'text-yellow-600',
+                ]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
                 <path
+                  v-if="importErrors[0].includes('Successfully imported all')"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+                <path
+                  v-else
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
@@ -247,10 +291,14 @@ const handleFileImport = async (event: Event) => {
               </svg>
             </div>
             <div class="mt-3 text-center sm:mt-5">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">Import Errors</h3>
-              <div class="mt-2">
-                <ul class="text-sm text-red-600 text-left list-disc pl-5">
-                  <li v-for="error in importErrors" :key="error">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Import Results</h3>
+              <div class="mt-2 max-h-60 overflow-y-auto">
+                <ul class="text-sm text-left space-y-2">
+                  <li
+                    v-for="(error, index) in importErrors"
+                    :key="index"
+                    :class="[error.includes('Successfully') ? 'text-green-600' : 'text-red-600']"
+                  >
                     {{ error }}
                   </li>
                 </ul>

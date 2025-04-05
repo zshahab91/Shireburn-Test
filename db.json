@@ -6,7 +6,7 @@
       "password": "123456"
     }
   ],
-  "employees1": [
+  "employees": [
     {
       "id": "1",
       "code": "EMP001",
@@ -636,218 +636,16 @@
       "department": "IT",
       "employmentDate": "2025-04-05",
       "terminationDate": null
-    }
-  ],
-  "employees": [
-    {
-      "id": "4cb7",
-      "code": "EMP001",
-      "firstName": "JohnEdit",
-      "lastName": "Doe",
-      "occupation": "Software Engineer",
-      "department": "IT",
-      "employmentDate": "2024-01-15",
-      "terminationDate": null
     },
     {
-      "id": "b865",
-      "code": "EMP002",
-      "firstName": "ZahraEdit",
+      "id": "b22f",
+      "code": "EMP987",
+      "firstName": "Shabi",
       "lastName": "Shahab",
-      "occupation": "Software Engineer",
-      "department": "IT",
-      "employmentDate": "2023-01-01",
-      "terminationDate": null
-    },
-    {
-      "id": "8e44",
-      "code": "EMP003",
-      "firstName": "JaneEdit",
-      "lastName": "Smith",
-      "occupation": "HR Manager",
+      "occupation": "Manager",
       "department": "Human Resources",
-      "employmentDate": "2024-05-01",
-      "terminationDate": null
-    },
-    {
-      "id": "3157",
-      "code": "EMP004",
-      "firstName": "Michael",
-      "lastName": "Johnson",
-      "occupation": "Research Scientist",
-      "department": "R&D",
-      "employmentDate": "2023-08-15",
-      "terminationDate": null
-    },
-    {
-      "id": "3469",
-      "code": "EMP005",
-      "firstName": "Sarah",
-      "lastName": "Williams",
-      "occupation": "Marketing Manager",
-      "department": "Marketing",
-      "employmentDate": "2023-11-01",
-      "terminationDate": null
-    },
-    {
-      "id": "6a2c",
-      "code": "EMP006",
-      "firstName": "David",
-      "lastName": "Brown",
-      "occupation": "Sales Representative",
-      "department": "Sales",
-      "employmentDate": "2024-02-01",
-      "terminationDate": null
-    },
-    {
-      "id": "fb67",
-      "code": "EMP007",
-      "firstName": "Emily",
-      "lastName": "Davis",
-      "occupation": "Quality Analyst",
-      "department": "Quality Control",
-      "employmentDate": "2023-06-15",
-      "terminationDate": "2024-06-15"
-    },
-    {
-      "id": "0613",
-      "code": "EMP008",
-      "firstName": "James",
-      "lastName": "Wilson",
-      "occupation": "System Administrator",
-      "department": "IT",
-      "employmentDate": "2023-09-01",
-      "terminationDate": null
-    },
-    {
-      "id": "a66c",
-      "code": "EMP009",
-      "firstName": "Emma",
-      "lastName": "Taylor",
-      "occupation": "Financial Analyst",
-      "department": "Finance",
-      "employmentDate": "2024-03-01",
-      "terminationDate": null
-    },
-    {
-      "id": "4a36",
-      "code": "EMP010",
-      "firstName": "Alexander",
-      "lastName": "Anderson",
-      "occupation": "Product Manager",
-      "department": "Product",
-      "employmentDate": "2023-07-15",
-      "terminationDate": null
-    },
-    {
-      "id": "9b2b",
-      "code": "EMP011",
-      "firstName": "Sophie",
-      "lastName": "Martin",
-      "occupation": "HR Specialist",
-      "department": "Human Resources",
-      "employmentDate": "2024-06-01",
-      "terminationDate": null
-    },
-    {
-      "id": "e548",
-      "code": "EMP012",
-      "firstName": "Daniel",
-      "lastName": "Thompson",
-      "occupation": "DevOps Engineer",
-      "department": "IT",
-      "employmentDate": "2023-12-01",
-      "terminationDate": null
-    },
-    {
-      "id": "64b9",
-      "code": "EMP013",
-      "firstName": "Olivia",
-      "lastName": "White",
-      "occupation": "Content Writer",
-      "department": "Marketing",
-      "employmentDate": "2024-01-15",
-      "terminationDate": null
-    },
-    {
-      "id": "9f12",
-      "code": "EMP014",
-      "firstName": "William",
-      "lastName": "Clark",
-      "occupation": "Sales Manager",
-      "department": "Sales",
-      "employmentDate": "2023-10-01",
-      "terminationDate": "2024-12-31"
-    },
-    {
-      "id": "db1c",
-      "code": "EMP015",
-      "firstName": "Isabella",
-      "lastName": "Lee",
-      "occupation": "Research Assistant",
-      "department": "R&D",
-      "employmentDate": "2024-04-01",
-      "terminationDate": null
-    },
-    {
-      "id": "078b",
-      "code": "EMP016",
-      "firstName": "Lucas",
-      "lastName": "Garcia",
-      "occupation": "UI/UX Designer",
-      "department": "IT",
-      "employmentDate": "2023-05-15",
-      "terminationDate": null
-    },
-    {
-      "id": "dd0d",
-      "code": "EMP017",
-      "firstName": "Ava",
-      "lastName": "Rodriguez",
-      "occupation": "Account Manager",
-      "department": "Sales",
-      "employmentDate": "2024-07-01",
-      "terminationDate": null
-    },
-    {
-      "id": "36ac",
-      "code": "EMP018",
-      "firstName": "Ethan",
-      "lastName": "Martinez",
-      "occupation": "Software Architect",
-      "department": "IT",
-      "employmentDate": "2023-03-15",
-      "terminationDate": null
-    },
-    {
-      "id": "59ba",
-      "code": "EMP019",
-      "firstName": "Mia",
-      "lastName": "Lopez",
-      "occupation": "Quality Manager",
-      "department": "Quality Control",
-      "employmentDate": "2024-08-01",
-      "terminationDate": null
-    },
-    {
-      "id": "af93",
-      "code": "EMP020",
-      "firstName": "Benjamin",
-      "lastName": "King",
-      "occupation": "Data Analyst",
-      "department": "IT",
-      "employmentDate": "2023-04-01",
-      "terminationDate": "2024-09-30"
-    },
-    {
-      "id": "a3ed",
-      "code": "EMP432",
-      "firstName": "Ashkan",
-      "lastName": "Nazari",
-      "occupation": "Developer",
-      "department": "IT",
       "employmentDate": "2025-04-05",
-      "terminationDate": null
+      "terminationDate": "2025-04-30"
     }
   ]
 }
