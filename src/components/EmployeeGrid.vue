@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { exportToCSV, parseCSV, validateCSVFormat } from '@/utils/csvHelpers'
 
@@ -41,6 +41,12 @@ const pagesToShow = ref(5)
 const fileInput = ref<HTMLInputElement | null>(null)
 const importErrors = ref<string[]>([])
 const showImportErrors = ref(false)
+
+// Add a watch for itemsPerPage
+watch(itemsPerPage, () => {
+  // Reset to first page when items per page changes
+  currentPage.value = 1
+})
 
 // Computed properties
 const filteredEmployees = computed(() => {
@@ -96,7 +102,11 @@ const pageNumbers = computed(() => {
   return pages
 })
 
-const displayedEmployees = computed(() => paginatedEmployees.value)
+const displayedEmployees = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value
+  const end = start + itemsPerPage.value
+  return filteredEmployees.value.slice(start, end)
+})
 
 // Methods
 const handleSort = (column: string) => {
