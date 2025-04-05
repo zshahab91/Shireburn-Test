@@ -347,12 +347,7 @@ const handleDelete = (employee: Employee) => {
           @click="searchQuery = ''"
           class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
         >
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -426,10 +421,7 @@ const handleDelete = (employee: Employee) => {
               >
                 Edit
               </button>
-              <button
-                @click="handleDelete(employee)"
-                class="text-red-600 hover:text-red-900"
-              >
+              <button @click="handleDelete(employee)" class="text-red-600 hover:text-red-900">
                 Delete
               </button>
             </td>
