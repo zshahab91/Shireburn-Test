@@ -236,6 +236,16 @@
       "department": "IT",
       "employmentDate": "2025-04-05",
       "terminationDate": null
+    },
+    {
+      "id": "7113",
+      "code": "EMP780",
+      "firstName": "zizi",
+      "lastName": "shahab",
+      "occupation": "Employee",
+      "department": "Human Resources",
+      "employmentDate": "2025-04-06",
+      "terminationDate": null
     }
   ]
 }

@@ -14,6 +14,13 @@ interface Employee {
   terminationDate: string | null
 }
 
+// Add these interfaces after the Employee interface
+interface Filter {
+  field: keyof Employee | 'fullName'
+  value: string
+  operator: 'contains' | 'equals' | 'startsWith' | 'endsWith' | 'greaterThan' | 'lessThan'
+}
+
 // Props and emits
 const props = defineProps<{
   employees: Employee[]
@@ -42,6 +49,15 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const importErrors = ref<string[]>([])
 const showImportErrors = ref(false)
 
+// Add these to the state section
+const filters = ref<Filter[]>([])
+const showFilterModal = ref(false)
+const newFilter = ref<Filter>({
+  field: 'fullName',
+  value: '',
+  operator: 'contains'
+})
+
 // Add a watch for itemsPerPage
 watch(itemsPerPage, () => {
   // Reset to first page when items per page changes
@@ -58,7 +74,43 @@ const filteredEmployees = computed(() => {
       employee.department.toLowerCase().includes(searchQuery.value.toLowerCase())
     const matchesDepartment =
       !selectedDepartment.value || employee.department === selectedDepartment.value
-    return matchesSearch && matchesDepartment
+    // Apply each filter
+    const matchesMoreFiltered = filters.value.every((filter) => {
+      let fieldValue: any
+
+      // Handle special case for full name
+      if (filter.field === 'fullName') {
+        fieldValue = `${employee.firstName} ${employee.lastName}`
+      } else {
+        fieldValue = employee[filter.field]
+      }
+
+      // Handle null values
+      fieldValue = fieldValue ?? ''
+
+      // Convert to lowercase for string comparisons
+      const filterValue = filter.value.toLowerCase()
+      fieldValue = String(fieldValue).toLowerCase()
+
+      // Apply different operators
+      switch (filter.operator) {
+        case 'contains':
+          return fieldValue.includes(filterValue)
+        case 'equals':
+          return fieldValue === filterValue
+        case 'startsWith':
+          return fieldValue.startsWith(filterValue)
+        case 'endsWith':
+          return fieldValue.endsWith(filterValue)
+        case 'greaterThan':
+          return new Date(fieldValue) > new Date(filterValue)
+        case 'lessThan':
+          return new Date(fieldValue) < new Date(filterValue)
+        default:
+          return true
+      }
+    })
+    return matchesSearch && matchesDepartment && matchesMoreFiltered
   })
 })
 
@@ -231,6 +283,17 @@ const handleFileImport = async (event: Event) => {
 const handleDelete = (employee: Employee) => {
   emit('delete', employee)
 }
+
+// Add these methods
+const addFilter = () => {
+  filters.value.push({ ...newFilter.value })
+  newFilter.value.value = ''
+  showFilterModal.value = false
+}
+
+const removeFilter = (index: number) => {
+  filters.value.splice(index, 1)
+}
 </script>
 
 <template>
@@ -363,6 +426,110 @@ const handleDelete = (employee: Employee) => {
           {{ dept }}
         </option>
       </select>
+    </div>
+
+    <!-- Add this after the Search and Filter Section -->
+    <div class="mb-4">
+      <div class="flex items-center justify-between">
+        <div class="flex flex-wrap gap-2">
+          <div
+            v-for="(filter, index) in filters"
+            :key="index"
+            class="flex items-center gap-2 px-3 py-1 bg-purple-50 border border-purple-200 rounded-lg"
+          >
+            <span class="text-sm text-purple-700">
+              {{ filter.field }}: {{ filter.operator }} "{{ filter.value }}"
+            </span>
+            <button
+              @click="removeFilter(index)"
+              class="text-purple-400 hover:text-purple-600"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <button
+          @click="showFilterModal = true"
+          class="px-3 py-1 text-sm text-purple-600 border border-purple-200 rounded-lg hover:bg-purple-50"
+        >
+          Add Filter
+        </button>
+      </div>
+    </div>
+
+    <!-- Add Filter Modal -->
+    <div v-if="showFilterModal" class="fixed inset-0 z-50 overflow-y-auto">
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75" @click="showFilterModal = false"></div>
+        <div class="relative bg-white rounded-lg p-6 max-w-md w-full">
+          <h3 class="text-lg font-medium mb-4">Add Filter</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Field</label>
+              <select
+                v-model="newFilter.field"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              >
+                <option value="fullName">Full Name</option>
+                <option value="code">Code</option>
+                <option value="occupation">Occupation</option>
+                <option value="department">Department</option>
+                <option value="employmentDate">Employment Date</option>
+                <option value="terminationDate">Termination Date</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Operator</label>
+              <select
+                v-model="newFilter.operator"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              >
+                <option value="contains">Contains</option>
+                <option value="equals">Equals</option>
+                <option value="startsWith">Starts With</option>
+                <option value="endsWith">Ends With</option>
+                <option
+                  v-if="['employmentDate', 'terminationDate'].includes(newFilter.field)"
+                  value="greaterThan"
+                >
+                  After
+                </option>
+                <option
+                  v-if="['employmentDate', 'terminationDate'].includes(newFilter.field)"
+                  value="lessThan"
+                >
+                  Before
+                </option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Value</label>
+              <input
+                v-model="newFilter.value"
+                :type="['employmentDate', 'terminationDate'].includes(newFilter.field) ? 'date' : 'text'"
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+          <div class="mt-6 flex justify-end space-x-3">
+            <button
+              @click="showFilterModal = false"
+              class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              @click="addFilter"
+              :disabled="!newFilter.value"
+              class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 disabled:opacity-50"
+            >
+              Add Filter
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Employee Grid -->
