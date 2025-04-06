@@ -9,8 +9,10 @@ This Vue.js (v3.5.13) web application was developed by Zahra Shahab for testing 
 ## Features
 
 - View a list of employees
-- Search for employees by fullName
-- Create an employee
+- Search for employees
+- Filter list regarding any columns
+- The grid should be sortable 
+- Create/Edit/Delete/View an employee
 - Import & Export functionality on grid
 - API calls to fetch employees data
 
@@ -42,13 +44,26 @@ This Vue.js (v3.5.13) web application was developed by Zahra Shahab for testing 
 
 5. Open your browser and go to `http://localhost:5173` to view the application.
 
-6. Type-Check, Compile and Minify for Production
+6. Start the development server:
+
+   ```bash
+   npm run server
+   ```
+   You can check `http://localhost:3000/employees`
+
+7.For login,
+   ```bash
+    username: zshahab,
+    pass: 123456
+   ```   
+
+7. Type-Check, Compile and Minify for Production
 
 ```sh
 npm run build
 ```
 
-7. Lint with [ESLint](https://eslint.org/)
+8. Lint with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
