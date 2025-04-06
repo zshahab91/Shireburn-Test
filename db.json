@@ -110,7 +110,7 @@
     {
       "id": "04a9",
       "code": "EMP010",
-      "firstName": "Alexander Edit new",
+      "firstName": "Alexander",
       "lastName": "Anderson",
       "occupation": "Product Manager",
       "department": "Product",
@@ -216,16 +216,6 @@
       "department": "IT",
       "employmentDate": "2023-04-01",
       "terminationDate": "2024-09-30"
-    },
-    {
-      "id": "3d14",
-      "code": "EMP432",
-      "firstName": "AshkanEdit",
-      "lastName": "Nazari",
-      "occupation": "Developer",
-      "department": "IT",
-      "employmentDate": "2025-04-05",
-      "terminationDate": null
     },
     {
       "id": "3706",

@@ -55,7 +55,7 @@ const showFilterModal = ref(false)
 const newFilter = ref<Filter>({
   field: 'fullName',
   value: '',
-  operator: 'contains'
+  operator: 'contains',
 })
 
 // Add a watch for itemsPerPage
@@ -440,12 +440,14 @@ const removeFilter = (index: number) => {
             <span class="text-sm text-purple-700">
               {{ filter.field }}: {{ filter.operator }} "{{ filter.value }}"
             </span>
-            <button
-              @click="removeFilter(index)"
-              class="text-purple-400 hover:text-purple-600"
-            >
+            <button @click="removeFilter(index)" class="text-purple-400 hover:text-purple-600">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
           </div>
@@ -508,7 +510,9 @@ const removeFilter = (index: number) => {
               <label class="block text-sm font-medium text-gray-700">Value</label>
               <input
                 v-model="newFilter.value"
-                :type="['employmentDate', 'terminationDate'].includes(newFilter.field) ? 'date' : 'text'"
+                :type="
+                  ['employmentDate', 'terminationDate'].includes(newFilter.field) ? 'date' : 'text'
+                "
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
@@ -533,33 +537,34 @@ const removeFilter = (index: number) => {
     </div>
 
     <!-- Employee Grid -->
-    <div class="overflow-x-auto bg-white rounded-lg shadow">
+    <div class="relative overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
           <tr>
             <th
               v-for="header in [
+                { key: 'code', label: 'Code' },
                 { key: 'fullName', label: 'Employee Name' },
                 { key: 'occupation', label: 'Occupation' },
                 { key: 'department', label: 'Department' },
                 { key: 'employmentDate', label: 'Employment Date' },
                 { key: 'terminationDate', label: 'Termination Date' },
-                { key: 'actions', label: 'Actions' },
               ]"
               :key="header.key"
-              @click="header.key !== 'actions' && handleSort(header.key)"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               {{ header.label }}
-              <span v-if="currentSort === header.key" class="ml-1">
-                {{ sortDirection === 'asc' ? '↑' : '↓' }}
-              </span>
+            </th>
+            <th
+              class="sticky right-0 bg-gray-50 px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider shadow-l"
+            >
+              Actions
             </th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-          <tr v-for="employee in displayedEmployees" :key="employee.id" class="hover:bg-gray-50">
-            <!-- Employee row content -->
+          <tr v-for="employee in displayedEmployees" :key="employee.id">
+            <td class="px-6 py-4 whitespace-nowrap">{{ employee.code }}</td>
             <td class="px-6 py-4 whitespace-nowrap">
               {{ employee.firstName }} {{ employee.lastName }}
             </td>
@@ -571,10 +576,12 @@ const removeFilter = (index: number) => {
             <td class="px-6 py-4 whitespace-nowrap">
               {{ formatTerminationStatus(employee.terminationDate) }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
+            <td
+              class="sticky right-0 bg-white px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2 shadow-l"
+            >
               <button
                 @click="router.push(`/employees/${employee.id}`)"
-                class="inline-flex items-center text-purple-600 hover:text-purple-900"
+                class="text-purple-600 hover:text-purple-900"
                 title="View Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -591,11 +598,10 @@ const removeFilter = (index: number) => {
                     d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                   />
                 </svg>
-                <span class="sr-only">View</span>
               </button>
               <button
                 @click="router.push(`/employees/${employee.id}/edit`)"
-                class="inline-flex items-center text-blue-600 hover:text-blue-900"
+                class="text-blue-600 hover:text-blue-900"
                 title="Edit Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -606,11 +612,10 @@ const removeFilter = (index: number) => {
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
-                <span class="sr-only">Edit</span>
               </button>
               <button
                 @click="handleDelete(employee)"
-                class="inline-flex items-center text-red-600 hover:text-red-900"
+                class="text-red-600 hover:text-red-900"
                 title="Delete Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -621,81 +626,96 @@ const removeFilter = (index: number) => {
                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                   />
                 </svg>
-                <span class="sr-only">Delete</span>
               </button>
             </td>
           </tr>
         </tbody>
       </table>
+    </div>
 
-      <!-- Pagination -->
-      <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <!-- Items per page selector -->
-        <div class="flex items-center gap-2">
-          <label class="text-sm text-gray-600">Show</label>
-          <select
-            v-model="itemsPerPage"
-            class="px-3 py-1 border rounded-lg focus:ring-2 focus:ring-purple-500"
-          >
-            <option :value="10">10</option>
-            <option :value="25">25</option>
-            <option :value="50">50</option>
-            <option :value="100">100</option>
-          </select>
-          <span class="text-sm text-gray-600">entries</span>
-        </div>
+    <!-- Pagination -->
+    <div class="mt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <!-- Items per page selector -->
+      <div class="flex items-center gap-2">
+        <label class="text-sm text-gray-600">Show</label>
+        <select
+          v-model="itemsPerPage"
+          class="px-3 py-1 border rounded-lg focus:ring-2 focus:ring-purple-500"
+        >
+          <option :value="10">10</option>
+          <option :value="25">25</option>
+          <option :value="50">50</option>
+          <option :value="100">100</option>
+        </select>
+        <span class="text-sm text-gray-600">entries</span>
+      </div>
 
-        <!-- Pagination info -->
-        <div class="text-sm text-gray-600">
-          Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
-          {{ Math.min(currentPage * itemsPerPage, totalItems) }} of {{ totalItems }} entries
-        </div>
+      <!-- Pagination info -->
+      <div class="text-sm text-gray-600">
+        Showing {{ (currentPage - 1) * itemsPerPage + 1 }} to
+        {{ Math.min(currentPage * itemsPerPage, totalItems) }} of {{ totalItems }} entries
+      </div>
 
-        <!-- Pagination controls -->
-        <div class="flex items-center gap-2">
-          <button
-            @click="changePage(1)"
-            :disabled="currentPage === 1"
-            class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            First
-          </button>
-          <button
-            @click="changePage(currentPage - 1)"
-            :disabled="currentPage === 1"
-            class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Previous
-          </button>
+      <!-- Pagination controls -->
+      <div class="flex items-center gap-2">
+        <button
+          @click="changePage(1)"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          First
+        </button>
+        <button
+          @click="changePage(currentPage - 1)"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Previous
+        </button>
 
-          <button
-            v-for="page in pageNumbers"
-            :key="page"
-            @click="changePage(page)"
-            :class="[
-              'px-3 py-1 border rounded-lg hover:bg-gray-50',
-              currentPage === page ? 'bg-purple-100 text-purple-600 border-purple-200' : '',
-            ]"
-          >
-            {{ page }}
-          </button>
+        <button
+          v-for="page in pageNumbers"
+          :key="page"
+          @click="changePage(page)"
+          :class="[
+            'px-3 py-1 border rounded-lg hover:bg-gray-50',
+            currentPage === page ? 'bg-purple-100 text-purple-600 border-purple-200' : '',
+          ]"
+        >
+          {{ page }}
+        </button>
 
-          <button
-            @click="changePage(currentPage + 1)"
-            :disabled="currentPage === totalPages"
-            class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Next
-          </button>
-          <button
-            @click="changePage(totalPages)"
-            :disabled="currentPage === totalPages"
-            class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Last
-          </button>
-        </div>
+        <button
+          @click="changePage(currentPage + 1)"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Next
+        </button>
+        <button
+          @click="changePage(totalPages)"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 border rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Last
+        </button>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.shadow-l {
+  box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Ensure sticky positioning works properly */
+.relative {
+  position: relative;
+}
+
+.sticky {
+  position: sticky;
+  z-index: 1;
+}
+</style>
