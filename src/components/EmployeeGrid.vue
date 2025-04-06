@@ -101,7 +101,7 @@ const pageNumbers = computed(() => {
 const displayedEmployees = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value
   const end = start + itemsPerPage.value
-  return filteredEmployees.value.slice(start, end)
+  return sortedEmployees.value.slice(start, end)
 })
 
 // Methods
