@@ -76,7 +76,7 @@ const filteredEmployees = computed(() => {
       !selectedDepartment.value || employee.department === selectedDepartment.value
     // Apply each filter
     const matchesMoreFiltered = filters.value.every((filter) => {
-      let fieldValue: any
+      let fieldValue: string | number | Date
 
       // Handle special case for full name
       if (filter.field === 'fullName') {
