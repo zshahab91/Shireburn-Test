@@ -40,6 +40,20 @@ const router = createRouter({
       meta: { requiresAuth: true },
       props: (route) => ({ mode: 'edit' }),
     },
+    {
+      path: '/employees/create',
+      name: 'employee-create-mobile',
+      component: () => import('@/components/MobileEmployeeForm.vue'),
+      props: { isEditMode: false },
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/employees/:id/edit-mobile',
+      name: 'employee-edit-mobile',
+      component: () => import('@/components/MobileEmployeeForm.vue'),
+      props: { isEditMode: true },
+      meta: { requiresAuth: true },
+    },
   ],
 })
 

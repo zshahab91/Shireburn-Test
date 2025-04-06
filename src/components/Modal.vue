@@ -2,7 +2,7 @@
 defineOptions({
   name: 'CustomModal',
 })
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
 defineProps<{
   show: boolean
@@ -10,6 +10,12 @@ defineProps<{
 }>()
 
 const emit = defineEmits(['close'])
+
+const isMobile = ref(false)
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 640
+}
 
 // Handle escape key to close modal
 const handleEscape = (e: KeyboardEvent) => {
@@ -19,18 +25,27 @@ const handleEscape = (e: KeyboardEvent) => {
 }
 
 onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
   document.addEventListener('keydown', handleEscape)
 })
 
 onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
   document.removeEventListener('keydown', handleEscape)
 })
 </script>
 
 <template>
+  <!-- Mobile Version -->
+  <MobileEmployeeForm v-if="isMobile && show" :is-edit-mode="title.includes('Edit')">
+    <slot></slot>
+  </MobileEmployeeForm>
+
+  <!-- Desktop Modal -->
   <Transition name="modal">
     <div
-      v-if="show"
+      v-if="!isMobile && show"
       class="fixed inset-0 z-50 overflow-y-auto"
       aria-labelledby="modal-title"
       role="dialog"
