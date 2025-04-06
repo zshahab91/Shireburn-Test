@@ -404,10 +404,10 @@ const handleDelete = (employee: Employee) => {
             <td class="px-6 py-4 whitespace-nowrap">
               {{ formatTerminationStatus(employee.terminationDate) }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
               <button
                 @click="router.push(`/employees/${employee.id}`)"
-                class="text-purple-600 hover:text-purple-900"
+                class="inline-flex items-center text-purple-600 hover:text-purple-900"
                 title="View Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -428,7 +428,7 @@ const handleDelete = (employee: Employee) => {
               </button>
               <button
                 @click="router.push(`/employees/${employee.id}/edit`)"
-                class="text-blue-600 hover:text-blue-900"
+                class="inline-flex items-center text-blue-600 hover:text-blue-900"
                 title="Edit Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,7 +443,7 @@ const handleDelete = (employee: Employee) => {
               </button>
               <button
                 @click="handleDelete(employee)"
-                class="text-red-600 hover:text-red-900"
+                class="inline-flex items-center text-red-600 hover:text-red-900"
                 title="Delete Employee"
               >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
