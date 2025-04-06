@@ -1,7 +1,3 @@
-# Shireburn-Test
-
-# Contents of README.md
-
 # Shireburn ( Purple Cross Ltd ) App Test
 
 This Vue.js (v3.5.13) web application was developed by Zahra Shahab for testing purposes.
